@@ -3,27 +3,29 @@ import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 import path from "path";
 import fs from "fs";
+import { fileURLToPath } from "url";
 
-const DB_PATH =
-  process.env.NODE_ENV === "production"
-    ? "/tmp/data.sqlite" // ✅ Render ke liye writable path
-    : path.join(process.cwd(), "backend", "database", "data.sqlite"); // ✅ Local ke liye
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const DB_PATH = path.join(__dirname, "data.sqlite");
 
 let dbInstance = null;
 
 export async function initDB() {
   try {
-    // Delete old DB if exists (only local or temp)
     if (fs.existsSync(DB_PATH)) {
       try {
         fs.unlinkSync(DB_PATH);
         console.log("✅ Old DB deleted");
       } catch (err) {
-        console.warn("⚠️ Could not delete old DB (maybe locked). Continuing anyway...");
+        console.warn(
+          "⚠️ Could not delete old DB (maybe locked). Continuing anyway..."
+        );
       }
     }
+    // hello ji
+ 
 
-    // Open database connection
     const db = await open({ filename: DB_PATH, driver: sqlite3.Database });
 
     console.log("⚙️ Creating fresh tables...");
@@ -74,7 +76,7 @@ export async function initDB() {
         updated_at TEXT DEFAULT (datetime('now'))
       );
 
-      -- Masters: Pasting
+      -- Masters: Pasting & Pinning
       CREATE TABLE IF NOT EXISTS pasting_master (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         method TEXT NOT NULL,
@@ -104,6 +106,13 @@ export async function initDB() {
         updated_at TEXT DEFAULT (datetime('now'))
       );
 
+      -- Backups table
+      CREATE TABLE IF NOT EXISTS backups (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        filename TEXT,
+        created_at TEXT DEFAULT (datetime('now'))
+      );
+
       -- Admin
       CREATE TABLE IF NOT EXISTS admin (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -127,7 +136,6 @@ export async function initDB() {
         FOREIGN KEY(machine_id) REFERENCES die_cutting_machine(id) ON DELETE CASCADE
       );
 
-      -- Transport
       CREATE TABLE IF NOT EXISTS transport_master (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         method TEXT NOT NULL,
@@ -136,7 +144,6 @@ export async function initDB() {
         updated_at TEXT DEFAULT (datetime('now'))
       );
 
-      -- Paper
       CREATE TABLE IF NOT EXISTS paper_master (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         method TEXT NOT NULL,
@@ -147,40 +154,44 @@ export async function initDB() {
 
       -- Orders
       CREATE TABLE IF NOT EXISTS orders (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        order_number TEXT,
-        customer_id INTEGER,
-        box_name TEXT,
-        quantity INTEGER,
-        sheet_length REAL DEFAULT 0,
-        sheet_breadth REAL DEFAULT 0,
-        gsm REAL DEFAULT 0,
-        total_sheets INTEGER DEFAULT 0,
-        box_length REAL DEFAULT 0,
-        box_breadth REAL DEFAULT 0,
-        sheet_price REAL DEFAULT 0,
-        corr_price REAL DEFAULT 0,
-        printing_price REAL DEFAULT 0,
-        lamination_price REAL DEFAULT 0,
-        pin_price REAL DEFAULT 0,
-        pasting_price REAL DEFAULT 0,
-        die_cutting_price REAL DEFAULT 0,
-        transport_price REAL DEFAULT 0,
-        total_price REAL DEFAULT 0,
-        extra_percent REAL DEFAULT 0,
-        final_total REAL DEFAULT 0,
-        remark TEXT,
-        corrType TEXT,
-        pastingMethod TEXT,
-        paper_id INTEGER,
-        printing_id INTEGER,
-        lamination_id INTEGER,
-        corrugation_id INTEGER,
-        pasting_id INTEGER,
-        transport_id INTEGER,
-        order_date TEXT DEFAULT CURRENT_TIMESTAMP,
-        status TEXT DEFAULT 'pending'
-      );
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    order_number TEXT,
+    customer_id INTEGER,
+    box_name TEXT,
+    quantity INTEGER,
+    sheet_length REAL DEFAULT 0,
+    sheet_breadth REAL DEFAULT 0,
+    gsm REAL DEFAULT 0,
+    total_sheets INTEGER DEFAULT 0,
+    box_length REAL DEFAULT 0,
+    box_breadth REAL DEFAULT 0,
+    sheet_price REAL DEFAULT 0,
+    corr_price REAL DEFAULT 0,
+    printing_price REAL DEFAULT 0,
+    lamination_price REAL DEFAULT 0,
+    pin_price REAL DEFAULT 0,
+    pasting_price REAL DEFAULT 0,
+    die_cutting_price REAL DEFAULT 0,
+    transport_price REAL DEFAULT 0,
+    total_price REAL DEFAULT 0,
+    extra_percent REAL DEFAULT 0,
+    final_total REAL DEFAULT 0,
+    remark TEXT,
+    -- nayi columns
+    corrType TEXT,
+    pastingMethod TEXT,
+
+    -- 🔹 Master IDs for proper joins
+    paper_id INTEGER,
+    printing_id INTEGER,
+    lamination_id INTEGER,
+    corrugation_id INTEGER,
+    pasting_id INTEGER,
+    transport_id INTEGER,
+
+    order_date TEXT DEFAULT CURRENT_TIMESTAMP,
+    status TEXT DEFAULT 'pending'
+);
     `);
 
     console.log("✅ Fresh tables created successfully!");
