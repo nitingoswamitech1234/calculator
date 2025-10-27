@@ -8,7 +8,7 @@ function PrintingMaster() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/masters/printing");
+      const res = await axios.get("https://calculator-g6ve.onrender.com/api/masters/printing");
       setList(res.data);
     } catch (err) {
       console.error(err);
@@ -21,9 +21,9 @@ function PrintingMaster() {
     e.preventDefault();
     try {
       if (editId) {
-        await axios.put(`http://localhost:5000/api/masters/printing/${editId}`, form);
+        await axios.put(`https://calculator-g6ve.onrender.com/api/masters/printing/${editId}`, form);
       } else {
-        await axios.post("http://localhost:5000/api/masters/printing", form);
+        await axios.post("https://calculator-g6ve.onrender.com/api/masters/printing", form);
       }
       setForm({ printing_type: "", rate: "" });
       setEditId(null);
@@ -37,7 +37,7 @@ function PrintingMaster() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure to delete this record?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/masters/printing/${id}`);
+      await axios.delete(`https://calculator-g6ve.onrender.com/api/masters/printing/${id}`);
       fetchData();
     } catch (err) {
       console.error(err);

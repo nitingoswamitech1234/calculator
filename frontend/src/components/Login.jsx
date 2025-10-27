@@ -16,7 +16,7 @@ function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/auth/login", { username, password });
+      const res = await axios.post("https://calculator-g6ve.onrender.com/auth/login", { username, password });
       const { token } = res.data;
 
       // ✅ Token save karo localStorage me

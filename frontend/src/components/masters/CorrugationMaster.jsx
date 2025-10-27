@@ -8,7 +8,7 @@ function CorrugationMaster() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/masters/corrugation");
+      const res = await axios.get("https://calculator-g6ve.onrender.com/api/masters/corrugation");
       setList(res.data);
     } catch (err) {
       console.error(err);
@@ -21,9 +21,9 @@ function CorrugationMaster() {
     e.preventDefault();
     try {
       if (editId) {
-        await axios.put(`http://localhost:5000/api/masters/corrugation/${editId}`, form);
+        await axios.put(`https://calculator-g6ve.onrender.com/api/masters/corrugation/${editId}`, form);
       } else {
-        await axios.post("http://localhost:5000/api/masters/corrugation", form);
+        await axios.post("https://calculator-g6ve.onrender.com/api/masters/corrugation", form);
       }
       setForm({ corrugation_type: "", rate_per_kg: "" });
       setEditId(null);
@@ -38,7 +38,7 @@ function CorrugationMaster() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure to delete this record?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/masters/corrugation/${id}`);
+      await axios.delete(`https://calculator-g6ve.onrender.com/api/masters/corrugation/${id}`);
       fetchData();
     } catch (err) {
       console.error(err);

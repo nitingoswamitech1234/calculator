@@ -10,7 +10,7 @@ function PaperMaster() {
   const [editId, setEditId] = useState(null);
 
   const fetchBrands = async () => {
-    const res = await axios.get("http://localhost:5000/api/masters/paper");
+    const res = await axios.get("https://calculator-g6ve.onrender.com/api/masters/paper");
     setBrands(res.data);
   };
 
@@ -21,7 +21,7 @@ function PaperMaster() {
   // Add brand
   const addBrand = async () => {
     if (!newBrand.trim()) return toast.error("Enter brand name");
-    await axios.post("http://localhost:5000/api/masters/paper/brand", { name: newBrand });
+    await axios.post("https://calculator-g6ve.onrender.com/api/masters/paper/brand", { name: newBrand });
     toast.success("Brand added");
     setNewBrand("");
     fetchBrands();
@@ -35,11 +35,11 @@ function PaperMaster() {
       return toast.error("Fill all fields");
 
     if (editId) {
-      await axios.put(`http://localhost:5000/api/masters/paper/size/${editId}`, sizeForm);
+      await axios.put(`https://calculator-g6ve.onrender.com/api/masters/paper/size/${editId}`, sizeForm);
       toast.success("Updated successfully");
       setEditId(null);
     } else {
-      await axios.post("http://localhost:5000/api/masters/paper/size", {
+      await axios.post("https://calculator-g6ve.onrender.com/api/masters/paper/size", {
         brand_id: selectedBrand.id,
         ...sizeForm,
       });
@@ -57,7 +57,7 @@ function PaperMaster() {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this size?")) return;
-    await axios.delete(`http://localhost:5000/api/masters/paper/size/${id}`);
+    await axios.delete(`https://calculator-g6ve.onrender.com/api/masters/paper/size/${id}`);
     toast.success("Deleted");
     fetchBrands();
   };

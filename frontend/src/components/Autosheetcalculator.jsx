@@ -282,7 +282,7 @@ export default function SheetAndPaperCalculator() {
     useEffect(() => {
         const fetchDieCutting = async () => {
             try {
-                const res = await fetch("http://localhost:5000/api/masters/die-cutting");
+                const res = await fetch("https://calculator-g6ve.onrender.com/api/masters/die-cutting");
                 const data = await res.json();
                 console.log("Die Cutting Machines:", data);
                 setDieCuttingOptions(data); // ✅ save in state

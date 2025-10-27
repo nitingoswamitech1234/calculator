@@ -9,7 +9,7 @@ function LaminationMaster() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/masters/lamination");
+      const res = await axios.get("https://calculator-g6ve.onrender.com/api/masters/lamination");
       setList(res.data);
     } catch (err) {
       console.error(err);
@@ -22,9 +22,9 @@ function LaminationMaster() {
     e.preventDefault();
     try {
       if (editId) {
-        await axios.put(`http://localhost:5000/api/masters/lamination/${editId}`, form);
+        await axios.put(`https://calculator-g6ve.onrender.com/api/masters/lamination/${editId}`, form);
       } else {
-        await axios.post("http://localhost:5000/api/masters/lamination", form);
+        await axios.post("https://calculator-g6ve.onrender.com/api/masters/lamination", form);
       }
       setForm({ lamination_type: "", rate_per_sqft: "" });
       setEditId(null);
@@ -38,7 +38,7 @@ function LaminationMaster() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure to delete this record?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/masters/lamination/${id}`);
+      await axios.delete(`https://calculator-g6ve.onrender.com/api/masters/lamination/${id}`);
       fetchData();
     } catch (err) {
       console.error(err);

@@ -11,7 +11,7 @@ function DieCuttingMaster() {
 
   // Fetch all machines + sizes
   const fetchMachines = async () => {
-    const res = await axios.get("http://localhost:5000/api/masters/die-cutting");
+    const res = await axios.get("https://calculator-g6ve.onrender.com/api/masters/die-cutting");
     setMachines(res.data);
   };
 
@@ -22,7 +22,7 @@ function DieCuttingMaster() {
   // Add Machine Brand
   const addMachine = async () => {
     if (!newMachine.trim()) return toast.error("Enter machine name");
-    await axios.post("http://localhost:5000/api/masters/die-cutting/brand", { machine_name: newMachine });
+    await axios.post("https://calculator-g6ve.onrender.com/api/masters/die-cutting/brand", { machine_name: newMachine });
     toast.success("Machine added");
     setNewMachine("");
     fetchMachines();
@@ -35,11 +35,11 @@ function DieCuttingMaster() {
     if (!sizeForm.size || !sizeForm.rate_per_unit) return toast.error("Fill all fields");
 
     if (editId) {
-      await axios.put(`http://localhost:5000/api/masters/die-cutting/size/${editId}`, sizeForm);
+      await axios.put(`https://calculator-g6ve.onrender.com/api/masters/die-cutting/size/${editId}`, sizeForm);
       toast.success("Updated successfully");
       setEditId(null);
     } else {
-      await axios.post("http://localhost:5000/api/masters/die-cutting/size", {
+      await axios.post("https://calculator-g6ve.onrender.com/api/masters/die-cutting/size", {
         machine_id: selectedMachine.id,
         ...sizeForm,
       });
@@ -57,7 +57,7 @@ function DieCuttingMaster() {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this size?")) return;
-    await axios.delete(`http://localhost:5000/api/masters/die-cutting/size/${id}`);
+    await axios.delete(`https://calculator-g6ve.onrender.com/api/masters/die-cutting/size/${id}`);
     toast.success("Deleted");
     fetchMachines();
   };
