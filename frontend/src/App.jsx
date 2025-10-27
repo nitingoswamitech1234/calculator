@@ -50,7 +50,7 @@ function App() {
       <Route path="/order-data-entry" element={<FullOrderEntry />} />
 
       {/* Redirect unknown routes to home */}
-      <Route path="*" element={<Navigate to="/" replace />} />
+      {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
     </Routes>
   );
 }
