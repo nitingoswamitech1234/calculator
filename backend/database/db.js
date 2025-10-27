@@ -13,16 +13,16 @@ let dbInstance = null;
 
 export async function initDB() {
   try {
-    // if (fs.existsSync(DB_PATH)) {
-    //   try {
-    //     fs.unlinkSync(DB_PATH);
-    //     console.log("✅ Old DB deleted");
-    //   } catch (err) {
-    //     console.warn(
-    //       "⚠️ Could not delete old DB (maybe locked). Continuing anyway..."
-    //     );
-    //   }
-    // }
+    if (fs.existsSync(DB_PATH)) {
+      try {
+        fs.unlinkSync(DB_PATH);
+        console.log("✅ Old DB deleted");
+      } catch (err) {
+        console.warn(
+          "⚠️ Could not delete old DB (maybe locked). Continuing anyway..."
+        );
+      }
+    }
  
 
     const db = await open({ filename: DB_PATH, driver: sqlite3.Database });
