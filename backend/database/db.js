@@ -23,6 +23,7 @@ export async function initDB() {
         );
       }
     }
+    // hello 
  
 
     const db = await open({ filename: DB_PATH, driver: sqlite3.Database });
